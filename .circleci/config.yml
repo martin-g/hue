@@ -168,8 +168,8 @@ commands:
           path: test-reports
           destination: test-reports
 
-build-py-three-six-common:
-  steps:
+  build-py-three-six-common:
+    steps:
       - checkout
 
       # Download and cache dependencies
