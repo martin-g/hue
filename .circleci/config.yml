@@ -3,9 +3,13 @@
 # Check https://circleci.com/docs/2.0/language-python/ for more details
 #
 version: 2.1
+  
 
 jobs:
   build:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
     docker:
       # specify the version you desire here
       # - image: circleci/python:3.8.0
@@ -203,7 +207,12 @@ jobs:
   build-py-three-six:
     docker:
       - image: gethue/hue:latest-py2 # Should be circleci/python:3.6 at some point
-
+    
+    machine:
+      image: ubuntu-2004:202101-01
+    
+    resource_class: arm.medium
+    
     working_directory: ~/repo
 
     steps:
