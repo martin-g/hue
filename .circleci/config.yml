@@ -240,6 +240,21 @@ jobs:
     steps:
       - build-common
     
+  build-arm64:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/postgres:9.4
+
+    working_directory: ~/repo
+
+    steps:
+      - build-common
+
   commit:
     docker:
       - image: circleci/python:3.8.0
@@ -267,10 +282,31 @@ jobs:
 
     steps:
       - build-py-three-six-common
+      
+  build-py-three-six-arm64:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+        
+    working_directory: ~/repo
+
+    steps:
+      - build-py-three-six-common
 
   build-py-three-eight:
-    docker:
-      - image: gethue/hue:latest-py2 # Should be circleci/python:3.x at some point
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
+
+    working_directory: ~/repo
+
+    steps:
+      - build-py-three-eight-common
+
+  build-py-three-eight-arm64:
+    machine:
+      image: ubuntu-2004:202101-01
+    resource_class: arm.medium
 
     working_directory: ~/repo
 
