@@ -7,8 +7,6 @@ version: 2.1
 
 jobs:
   build:
-    machine:
-      image: ubuntu-2004:202101-01
     resource_class: arm.medium
     docker:
       # specify the version you desire here
@@ -207,10 +205,7 @@ jobs:
   build-py-three-six:
     docker:
       - image: gethue/hue:latest-py2 # Should be circleci/python:3.6 at some point
-    
-    machine:
-      image: ubuntu-2004:202101-01
-    
+        
     resource_class: arm.medium
     
     working_directory: ~/repo
