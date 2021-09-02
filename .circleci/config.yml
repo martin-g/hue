@@ -337,6 +337,8 @@ workflows:
             branches:
               only:
                 - /.*ci-commit-master.*/
+      - build-arm64
+      - build-py-three-six-arm64
   build-python3:
     jobs:
       - build-py-three-eight:
