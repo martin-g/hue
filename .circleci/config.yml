@@ -40,7 +40,7 @@ commands:
           name: refresh sources
           command: |
             rm -rf /usr/share/hue/desktop/core/src/desktop
-            mkdir -p /usr/share/hue/desktop/core/src/
+            sudo mkdir -p /usr/share/hue/desktop/core/src/
             cp -r desktop/core/src/desktop /usr/share/hue/desktop/core/src/desktop
 
             for lib in `ls desktop/libs`
@@ -194,7 +194,7 @@ commands:
       - run:
           name: compile
           command: |
-            apt-get update && apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
+            sudo apt-get update && apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
 
             export PYTHON_VER=python3.6
             make apps
@@ -224,7 +224,7 @@ commands:
       - run:
           name: compile
           command: |
-            apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
+            sudo apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
 
             export PYTHON_VER=python3.8
             make apps
