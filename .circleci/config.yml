@@ -107,7 +107,6 @@ commands:
             npm run webpack
             npm run webpack-login
             npm run webpack-workers
-            pip install about
             ./build/env/bin/hue collectstatic --noinput
 
             cp -r ~/repo/docs .
