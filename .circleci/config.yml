@@ -41,7 +41,7 @@ commands:
           command: |
             rm -rf /usr/share/hue/desktop/core/src/desktop
             sudo mkdir -p /usr/share/hue/desktop/core/src/
-            chown -r $USER:$USER /usr/share/hue
+            chown -R $USER:$USER /usr/share/hue
             cp -r desktop/core/src/desktop /usr/share/hue/desktop/core/src/desktop
 
             for lib in `ls desktop/libs`
