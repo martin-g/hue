@@ -60,7 +60,7 @@ commands:
             done
 
             rm -rf /usr/share/hue/tools
-            cp -r tools /usr/share/hue
+            cp -r tools /usr/share/hue/tools
 
             rm -f /usr/share/hue/desktop/conf/*.ini
             mkdir -p /usr/share/hue/desktop/conf/
@@ -69,9 +69,6 @@ commands:
             # ini configuration tweaks
             ## Very slow if on, cuts time in two and does not skip tests
             sed -i 's/## has_iam_detection=true/  has_iam_detection=false/g' /usr/share/hue/desktop/conf/pseudo-distributed.ini
-
-            echo -e "\n\n\nDEBUG\n\n\n"
-            ls -la
 
             # build Hue when using plain Ubuntu image
             if [ ! -f /usr/share/hue/build/env/bin/hue ]; then
@@ -215,9 +212,14 @@ commands:
       - run:
           name: compile
           command: |
-            sudo add-apt-repository --yes ppa:deadsnakes/ppa
-            sudo apt-get update
-            DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true TZ=UTC sudo apt-get install -y --no-install-recommends python3.6-dev libsnappy-dev asciidoc git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-setuptools libgmp3-dev
+            if [ ! -d /usr/share/hue ]; then
+              # Install prerequisites on plain Ubuntu Docker image
+              sudo add-apt-repository --yes ppa:deadsnakes/ppa
+              sudo apt-get update
+              DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true TZ=UTC sudo apt-get install -y --no-install-recommends python3.6-dev libsnappy-dev asciidoc git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-setuptools libgmp3-dev
+            else
+              apt-get update && apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
+            fi
 
             export PYTHON_VER=python3.6
             make apps
