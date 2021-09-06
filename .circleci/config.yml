@@ -78,9 +78,9 @@ commands:
             cp ~/repo/.stylelintrc .
 
             cp ~/repo/webpack.config*.js .
-            rm package.json
+            rm -f package.json
             cp ~/repo/package.json .
-            rm package-lock.json
+            rm -f package-lock.json
             cp ~/repo/package-lock.json .
             npm install
             npm i eslint-plugin-jest@latest --save-dev # Seems to not be found otherwise
