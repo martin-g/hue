@@ -195,6 +195,8 @@ commands:
       - run:
           name: compile
           command: |
+            DEBIAN_FRONTEND=noninteractive
+            sudo add-apt-repository --yes ppa:deadsnakes/ppa
             sudo apt-get update && sudo apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
 
             export PYTHON_VER=python3.6
@@ -225,6 +227,7 @@ commands:
       - run:
           name: compile
           command: |
+            DEBIAN_FRONTEND=noninteractive
             sudo apt-get update && sudo apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
 
             export PYTHON_VER=python3.8
