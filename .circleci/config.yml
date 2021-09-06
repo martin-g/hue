@@ -70,6 +70,18 @@ commands:
             ## Very slow if on, cuts time in two and does not skip tests
             sed -i 's/## has_iam_detection=true/  has_iam_detection=false/g' /usr/share/hue/desktop/conf/pseudo-distributed.ini
 
+            # build Hue when using plain Ubuntu image
+            if [ ! -f ./build/env/bin/hue ]; then
+              export DEBIAN_FRONTEND=noninteractive
+              export DEBCONF_NONINTERACTIVE_SEEN=true
+              export TZ=GMT
+              sudo add-apt-repository --yes ppa:deadsnakes/ppa
+              sudo apt-get update && sudo apt-get install -y python2.7-dev libsnappy-dev asciidoc git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-setuptools libgmp3-dev  
+              make apps
+              cp -r build /usr/share/hue/
+            fi
+            
+
             cd /usr/share/hue
             # make npm-install # Not available
             cp ~/repo/babel.config.js .
@@ -88,9 +100,7 @@ commands:
             npm run webpack
             npm run webpack-login
             npm run webpack-workers
-            if [ ! -f ./build/env/bin/hue ]; then
-              make apps
-            fi
+            pip install about
             ./build/env/bin/hue collectstatic --noinput
 
             cp -r ~/repo/docs .
@@ -201,6 +211,7 @@ commands:
           command: |
             export DEBIAN_FRONTEND=noninteractive
             export DEBCONF_NONINTERACTIVE_SEEN=true
+            export TZ=GMT
             sudo add-apt-repository --yes ppa:deadsnakes/ppa
             sudo apt-get update && sudo apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
             sudo apt-get install git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-setuptools libgmp3-dev
@@ -234,7 +245,9 @@ commands:
       - run:
           name: compile
           command: |
-            DEBIAN_FRONTEND=noninteractive
+            export DEBIAN_FRONTEND=noninteractive
+            export DEBCONF_NONINTERACTIVE_SEEN=true
+            export TZ=GMT
             sudo apt-get update && sudo apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
 
             export PYTHON_VER=python3.8
