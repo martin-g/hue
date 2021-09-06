@@ -195,7 +195,7 @@ commands:
       - run:
           name: compile
           command: |
-            sudo apt-get update && apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
+            sudo apt-get update && sudo apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
 
             export PYTHON_VER=python3.6
             make apps
@@ -225,7 +225,7 @@ commands:
       - run:
           name: compile
           command: |
-            sudo apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
+            sudo apt-get update && sudo apt-get install -y python3.8-dev python3.8-venv python3.8-distutils libsnappy-dev # This should not be needed as some point
 
             export PYTHON_VER=python3.8
             make apps
