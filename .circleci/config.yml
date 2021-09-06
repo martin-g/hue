@@ -39,9 +39,11 @@ commands:
       - run:
           name: refresh sources
           command: |
-            rm -rf /usr/share/hue/desktop/core/src/desktop
-            sudo mkdir -p /usr/share/hue/desktop/core/src/
+            sudo mkdir -p /usr/share/hue
             sudo chown -R $USER:$USER /usr/share/hue
+            
+            rm -rf /usr/share/hue/desktop/core/src/desktop
+            mkdir -p /usr/share/hue/desktop/core/src/
             cp -r desktop/core/src/desktop /usr/share/hue/desktop/core/src/desktop
 
             for lib in `ls desktop/libs`
@@ -58,7 +60,6 @@ commands:
             done
 
             rm -rf /usr/share/hue/tools
-            mkdir -p /usr/share/hue/
             cp -r tools /usr/share/hue
 
             rm -f /usr/share/hue/desktop/conf/*.ini
@@ -87,6 +88,9 @@ commands:
             npm run webpack
             npm run webpack-login
             npm run webpack-workers
+            if [ ! -f ./build/env/bin/hue ]; then
+              make apps
+            fi
             ./build/env/bin/hue collectstatic --noinput
 
             cp -r ~/repo/docs .
@@ -195,9 +199,12 @@ commands:
       - run:
           name: compile
           command: |
-            DEBIAN_FRONTEND=noninteractive
+            export DEBIAN_FRONTEND=noninteractive
+            export DEBCONF_NONINTERACTIVE_SEEN=true
             sudo add-apt-repository --yes ppa:deadsnakes/ppa
             sudo apt-get update && sudo apt-get install -y python3.6-dev libsnappy-dev asciidoc # This should not be needed as some point
+            sudo apt-get install git ant gcc g++ libffi-dev libkrb5-dev libmysqlclient-dev libsasl2-dev libsasl2-modules-gssapi-mit libsqlite3-dev libssl-dev libxml2-dev libxslt-dev make maven libldap2-dev python-setuptools libgmp3-dev
+
 
             export PYTHON_VER=python3.6
             make apps
@@ -262,11 +269,6 @@ jobs:
     machine:
       image: ubuntu-2004:202101-01
     resource_class: arm.medium
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
 
     working_directory: ~/repo
 
